@@ -1,8 +1,12 @@
 package com.huawei.gxlm.sunday;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,12 +19,21 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.huawei.gxlm.sunday.adapter.TweetsListItemAdapter;
+import com.nightonke.boommenu.BoomMenuButton;
+import com.nightonke.boommenu.Types.BoomType;
+import com.nightonke.boommenu.Types.ButtonType;
+import com.nightonke.boommenu.Types.DimType;
+import com.nightonke.boommenu.Types.PlaceType;
+import com.nightonke.boommenu.Util;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
 
     private ListView mainList;
     private TweetsListItemAdapter tweetsListItemAdapter;
+    private BoomMenuButton boomMenuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +43,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+        boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,6 +78,112 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        initBoom();
+    }
+
+    private void initBoom() {
+        int number = 4;
+
+        Drawable[] drawables = new Drawable[number];
+        int[] drawablesResource = new int[]{
+                R.drawable.mark,
+                R.drawable.refresh,
+                R.drawable.copy,
+                R.drawable.heart,
+                R.drawable.info,
+                R.drawable.like,
+                R.drawable.record,
+                R.drawable.search,
+                R.drawable.settings
+        };
+        for (int i = 0; i < number; i++)
+            drawables[i] = ContextCompat.getDrawable(MainActivity.this, drawablesResource[i]);
+
+        String[] STRINGS = new String[]{
+                "Mark",
+                "Refresh",
+                "Copy",
+                "Heart",
+                "Info",
+                "Like",
+                "Record",
+                "Search",
+                "Settings"
+        };
+        String[] strings = new String[number];
+        for (int i = 0; i < number; i++)
+            strings[i] = STRINGS[i];
+
+        int[][] colors = new int[number][2];
+        for (int i = 0; i < number; i++) {
+            colors[i][1] = GetRandomColor();
+            colors[i][0] = Util.getInstance().getPressedColor(colors[i][1]);
+        }
+
+        ButtonType buttonType = ButtonType.CIRCLE;
+//        switch (buttonTypeGroup.getCheckedRadioButtonId()) {
+//            case R.id.circle_button:
+//                break;
+//            case R.id.hamburger_button:
+//                buttonType = ButtonType.HAM;
+//                break;
+//        }
+
+        // Now with Builder, you can init BMB more convenient
+        new BoomMenuButton.Builder()
+                .subButtons(drawables, colors, strings)
+                .button(buttonType)
+                .boom(BoomType.PARABOLA)
+                .place(PlaceType.SHARE_4_1)
+                .boomButtonShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+                .onSubButtonClick(this)
+                .animator(this)
+                .init(boomMenuButton);
+
+//        // Now with Builder, you can init BMB more convenient
+//        new BoomMenuButton.Builder()
+//                .subButtons(drawables, colors, strings)
+//                .button(buttonType)
+//                .boom(BoomType.PARABOLA)
+//                .place(PlaceType.HAM_4_1)
+//                .subButtonsShadow(Util.getInstance().dp2px(2), Util.getInstance().dp2px(2))
+//                .onSubButtonClick(this)
+//                .animator(this)
+//                .dim(DimType.DIM_0)
+//                .init(boomMenuButtonInActionBar);
+    }
+
+    public int GetRandomColor() {
+        Random random = new Random();
+        int p = random.nextInt(Colors.length);
+        return Color.parseColor(Colors[p]);
+    }
+
+    private String[] Colors = {
+            "#F44336",
+            "#E91E63",
+            "#9C27B0",
+            "#2196F3",
+            "#03A9F4",
+            "#00BCD4",
+            "#009688",
+            "#4CAF50",
+            "#8BC34A",
+            "#CDDC39",
+            "#FFEB3B",
+            "#FFC107",
+            "#FF9800",
+            "#FF5722",
+            "#795548",
+            "#9E9E9E",
+            "#607D8B"};
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,5 +230,40 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(int buttonIndex) {
+
+    }
+
+    @Override
+    public void toShow() {
+
+    }
+
+    @Override
+    public void showing(float fraction) {
+
+    }
+
+    @Override
+    public void showed() {
+
+    }
+
+    @Override
+    public void toHide() {
+
+    }
+
+    @Override
+    public void hiding(float fraction) {
+
+    }
+
+    @Override
+    public void hided() {
+
     }
 }
