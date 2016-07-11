@@ -1,5 +1,6 @@
 package com.huawei.gxlm.sunday;
 
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,9 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.huawei.gxlm.sunday.adapter.TweetsListItemAdapter;
+import com.huawei.gxlm.sunday.api.Api;
+import com.huawei.gxlm.sunday.utils.HttpUtils;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
 import com.nightonke.boommenu.Types.ButtonType;
@@ -29,11 +35,13 @@ import com.nightonke.boommenu.Util;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
 
     private ListView mainList;
     private TweetsListItemAdapter tweetsListItemAdapter;
     private BoomMenuButton boomMenuButton;
+    private Spinner spinner;
+    private String[] allName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +73,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
+        allName = getResources().getStringArray(R.array.all_type);
         tweetsListItemAdapter = new TweetsListItemAdapter(this);
         mainList.setAdapter(tweetsListItemAdapter);
+
     }
 
     @Override
@@ -184,12 +194,49 @@ public class MainActivity extends AppCompatActivity
             "#607D8B"};
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        spinner = (Spinner) findViewById(R.id.sp_type);
+        initMySpinner();
         return true;
+    }
+
+    private void initMySpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.all_type,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setPrompt("test");
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                changeContent(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    /**
+     * 改变网络参数
+     * @param i
+     */
+    private void changeContent(int i) {
+        //网络请求
+        String type = allName[i];
+        HttpUtils.doGetAsyn(Api.ALL_ARTICAL + "?" + type, new HttpUtils.CallBack() {
+            @Override
+            public void onRequestComplete(String result) {
+                //处理页面更新
+            }
+        });
+
     }
 
     @Override
