@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_all"
+            android:icon="@drawable/ic_menu_all"
+            android:title="全部" />
+        <item
+            android:id="@+id/nav_zan"
+            android:icon="@drawable/ic_menu_zan"
+            android:title="精华" />
+        <item
+            android:id="@+id/nav_person"
+            android:icon="@drawable/ic_menu_personal"
+            android:title="个人中心" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_setting"
+            android:title="设置" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="分享" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_menu_about"
+            android:title="关于" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+
+        </menu>
+    </item>
+
+</menu>

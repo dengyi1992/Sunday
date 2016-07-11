@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="all_type">
+        <item>全部</item>
+        <item>最火</item>
+        <item>文章</item>
+        <item>活动</item>
+        <item>校园交易</item>
+        <item>技术</item>
+        <item>学习</item>
+        <item>摄影</item>
+        <item>组团</item>
+        <item>运动</item>
+    </string-array>
+</resources>
