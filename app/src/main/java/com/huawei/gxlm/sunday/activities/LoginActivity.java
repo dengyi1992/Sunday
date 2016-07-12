@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -69,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     };
     private String name;
     private String password;
+    private TextView tvRegister;
 
     private void resetAccount() {
         try {
@@ -98,10 +101,18 @@ public class LoginActivity extends AppCompatActivity {
         mPassEditText = (EditText) findViewById(R.id.et_pass);
         mLoginButton = (Button) findViewById(R.id.bt_login);
         mProgressProgressBar = (ProgressBar) findViewById(R.id.login_progress);
+        tvRegister = (TextView) findViewById(R.id.tv_register);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                finish();
             }
         });
     }

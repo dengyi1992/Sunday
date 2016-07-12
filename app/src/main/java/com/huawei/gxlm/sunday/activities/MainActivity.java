@@ -1,5 +1,6 @@
 package com.huawei.gxlm.sunday.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -262,20 +263,23 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_zan) {
 
         } else if (id == R.id.nav_person) {
-
+            startAct(LoginActivity.class);
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_share) {
-            startActivity(new Intent(MainActivity.this,ShareActivity.class));
+            startAct(ShareActivity.class);
 
         } else if (id == R.id.nav_about) {
+            startAct(AboutActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    private void startAct(Class<?> activity){
+        startActivity(new Intent(this,activity));
+    }
     @Override
     public void onClick(int buttonIndex) {
 

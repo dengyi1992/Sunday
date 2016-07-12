@@ -31,4 +31,5 @@
     <string name="error_no_renewpass">新密码重复为空</string>
     <string name="error_nosame_password">两次密码不一致</string>
     <string name="login">登录</string>
+    <string name="reg">注 册</string>
 </resources>
