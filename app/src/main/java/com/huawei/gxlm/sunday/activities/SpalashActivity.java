@@ -1,4 +1,4 @@
-package com.huawei.gxlm.sunday;
+package com.huawei.gxlm.sunday.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.utils.SysUtil;
 import com.loopj.android.http.AsyncHttpClient;

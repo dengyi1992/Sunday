@@ -9,4 +9,6 @@ public class Api {
   //测试的详情地址
     public static final String DETAIL_URL = "http://news-at.zhihu.com/api/4/news/3892357";
     public static final String ALL_ARTICAL = "http://115.159.0.155:3000";
+    public static final String LOGINURL = ALL_ARTICAL + "/login";
+    public static final String REGURL = ALL_ARTICAL + "/reg";
 }

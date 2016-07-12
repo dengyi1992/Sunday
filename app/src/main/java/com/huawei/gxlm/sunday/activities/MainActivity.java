@@ -1,12 +1,9 @@
-package com.huawei.gxlm.sunday;
+package com.huawei.gxlm.sunday.activities;
 
-import android.content.res.TypedArray;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,13 +19,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.adapter.TweetsListItemAdapter;
 import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.utils.HttpUtils;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
 import com.nightonke.boommenu.Types.ButtonType;
-import com.nightonke.boommenu.Types.DimType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
@@ -269,9 +266,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_share) {
+            startActivity(new Intent(MainActivity.this,ShareActivity.class));
 
         } else if (id == R.id.nav_about) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
