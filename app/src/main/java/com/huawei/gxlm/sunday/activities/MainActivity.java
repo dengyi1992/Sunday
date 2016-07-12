@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_person) {
             startAct(LoginActivity.class);
         } else if (id == R.id.nav_setting) {
-
+            startAct(SettingsActivity.class);
         } else if (id == R.id.nav_share) {
             startAct(ShareActivity.class);
 
