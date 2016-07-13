@@ -1,10 +1,11 @@
 package com.huawei.gxlm.sunday.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,9 +21,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
 import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.adapter.TweetsListItemAdapter;
 import com.huawei.gxlm.sunday.api.Api;
+import com.huawei.gxlm.sunday.bean.Tweet;
 import com.huawei.gxlm.sunday.utils.HttpUtils;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
@@ -30,22 +33,41 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
 
+    private static final int GET_DATA_SUCCESS = 1;
     private ListView mainList;
     private TweetsListItemAdapter tweetsListItemAdapter;
     private BoomMenuButton boomMenuButton;
     private Spinner spinner;
     private String[] allName;
+    private int Loaded=1;
+    private List<Tweet.PostsEntity> MainData;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case GET_DATA_SUCCESS:
+                    tweetsListItemAdapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainList = (ListView) findViewById(R.id.main_list);
+        MainData=new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -72,9 +94,26 @@ public class MainActivity extends AppCompatActivity
 
     private void initData() {
         allName = getResources().getStringArray(R.array.all_type);
-        tweetsListItemAdapter = new TweetsListItemAdapter(this);
+        MainData=new ArrayList<>();
+        tweetsListItemAdapter = new TweetsListItemAdapter(this,MainData);
         mainList.setAdapter(tweetsListItemAdapter);
+        getDataFromWeb();
+    }
 
+    private void getDataFromWeb() {
+        HttpUtils.doGetAsyn(Api.ALL_ARTICAL + "?p="+Loaded, new HttpUtils.CallBack() {
+            @Override
+            public void onRequestComplete(String result) {
+                Gson gson = new Gson();
+                Tweet tweet = gson.fromJson(result, Tweet.class);
+                if (Loaded==1){
+                    MainData.clear();
+
+                }
+                MainData.addAll(tweet.getPosts());
+                handler.sendEmptyMessage(GET_DATA_SUCCESS);
+            }
+        });
     }
 
     @Override
@@ -245,7 +284,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.share_me) {
+            startAct(ShareActivity.class);
             return true;
         }
 

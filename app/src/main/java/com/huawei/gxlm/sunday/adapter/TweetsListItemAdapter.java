@@ -11,8 +11,10 @@ import android.widget.BaseAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.bean.Artical;
+import com.huawei.gxlm.sunday.bean.Tweet;
 import com.huawei.gxlm.sunday.widget.enter.AutoHeightGridView;
 import android.widget.CheckBox;
 import android.widget.TextSwitcher;
@@ -20,17 +22,20 @@ import android.widget.ImageButton;
 
 public class TweetsListItemAdapter extends BaseAdapter {
 
-    private List<Artical> objects = new ArrayList<Artical>();
+    private List<Tweet.PostsEntity> objects = new ArrayList<Tweet.PostsEntity>();
 
     private Context context;
     private LayoutInflater layoutInflater;
 
-    public TweetsListItemAdapter(Context context) {
+
+
+    public TweetsListItemAdapter(Context context, List<Tweet.PostsEntity> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
-        for (int i = 0; i < 5; i++) {
-            objects.add(new Artical());
-        }
+        this.objects=objects;
+//        for (int i = 0; i < 5; i++) {
+//            objects.add(new Tweet.PostsEntity());
+//        }
     }
 
     @Override
@@ -39,7 +44,7 @@ public class TweetsListItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Artical getItem(int position) {
+    public Tweet.PostsEntity getItem(int position) {
         return objects.get(position);
     }
 
@@ -54,12 +59,19 @@ public class TweetsListItemAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.tweets_list_item, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        initializeViews((Artical)getItem(position), (ViewHolder) convertView.getTag());
+        initializeViews((Tweet.PostsEntity)getItem(position), (ViewHolder) convertView.getTag());
         return convertView;
     }
 
-    private void initializeViews(Artical object, ViewHolder holder) {
+    private void initializeViews(Tweet.PostsEntity object, ViewHolder holder) {
         //TODO implement
+        Glide.with(context).load(object.getHead()).placeholder(R.mipmap.logo1).into(holder.avatar);
+        holder.username.setText(object.getName());
+        holder.time.setText(object.getTime().getMinute());
+        holder.content.setText(object.getContent());
+//        holder.gridView
+        holder.likeCount.setText(object.getZan());
+        holder.commentCount.setText(object.getComments().size());
     }
 
     protected class ViewHolder {

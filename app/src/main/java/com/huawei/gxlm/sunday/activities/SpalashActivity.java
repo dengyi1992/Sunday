@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.api.Api;
+import com.huawei.gxlm.sunday.serivice.UpdateService;
 import com.huawei.gxlm.sunday.utils.SysUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -68,6 +69,7 @@ public class SpalashActivity extends AppCompatActivity {
     }
 
     private void init() {
+//        startService(new Intent(this, UpdateService.class));
         initAnimation();
     }
 

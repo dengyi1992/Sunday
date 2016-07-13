@@ -6,7 +6,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
-/**
+/**Artical
  * YouJoin-Android
  * Created by ZQ on 2015/12/2.
  */
