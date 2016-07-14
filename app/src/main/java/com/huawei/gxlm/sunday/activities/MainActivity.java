@@ -1,8 +1,10 @@
 package com.huawei.gxlm.sunday.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -22,8 +24,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.huawei.gxlm.sunday.R;
@@ -44,6 +49,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import me.nereo.multi_image_selector.bean.Image;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
@@ -103,6 +110,15 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
+    private SharedPreferences sharedPreferences;
+    private boolean isLogin;
+    private LinearLayout mllLogined;
+    private LinearLayout mllunLogined;
+    private ImageView headerImage;
+    private TextView nickName;
+    private TextView mState;
+    private TextView register;
+    private TextView login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +145,40 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        initView();
+        initData();
+        updateCheck();
+    }
+
+    private void initView() {
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        mllLogined = (LinearLayout) headerView.findViewById(R.id.logined_view);
+        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
+        nickName = (TextView) headerView.findViewById(R.id.nickname);
+        mState = (TextView) headerView.findViewById(R.id.tv_state);
+        mllunLogined = (LinearLayout) headerView.findViewById(R.id.unlogin_view);
+        register = (TextView) headerView.findViewById(R.id.bt_nav_register);
+        login = (TextView) headerView.findViewById(R.id.bt_nav_login);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAct(RegisterActivity.class);
+            }
+        });headerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAct(ActivityPersonalActivity.class);
+            }
+        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAct(LoginActivity.class);
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -137,9 +186,30 @@ public class MainActivity extends AppCompatActivity
                 startAct(TweetDetailActivity.class);
             }
         });
-        initData();
-        updateCheck();
     }
+    private void resumeView(){
+        sharedPreferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
+        isLogin = sharedPreferences.getBoolean("isLogin", false);
+        String name = sharedPreferences.getString("name", null);
+        int account = sharedPreferences.getInt("account", 0);
+        if (isLogin) {
+            mllLogined.setVisibility(View.VISIBLE);
+            mllunLogined.setVisibility(View.GONE);
+            nickName.setText(name);
+            mState.setText(account + "");
+
+        } else {
+            mllunLogined.setVisibility(View.VISIBLE);
+            mllLogined.setVisibility(View.GONE);
+
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resumeView();
+    }
+
     private void updateCheck() {
         HttpUtils.doGetAsyn(Api.UPDATE_INFO, new HttpUtils.CallBack() {
             @Override
