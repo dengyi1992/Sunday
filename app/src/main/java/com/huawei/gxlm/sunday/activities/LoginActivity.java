@@ -10,9 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,7 +97,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initView();
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+//                this.finish();
+            default:
+                this.finish();
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private void initView() {
         mNameEditText = (EditText) findViewById(R.id.et_name);
         mPassEditText = (EditText) findViewById(R.id.et_pass);
@@ -115,6 +126,15 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("登录");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                actionBar.setElevation(0);
+            }
+
+        }
     }
 
     private void attemptLogin() {

@@ -107,6 +107,7 @@ public class PublishActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle("发动态");
             actionBar.setDisplayHomeAsUpEnabled(true);
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                 actionBar.setElevation(0);
