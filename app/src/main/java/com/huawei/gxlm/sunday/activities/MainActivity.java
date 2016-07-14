@@ -1,5 +1,6 @@
 package com.huawei.gxlm.sunday.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -303,7 +304,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_zan) {
 
         } else if (id == R.id.nav_person) {
-            startAct(LoginActivity.class);
+            startAct(ActivityPersonalActivity.class);
         } else if (id == R.id.nav_setting) {
             startAct(SettingsActivity.class);
         } else if (id == R.id.nav_share) {

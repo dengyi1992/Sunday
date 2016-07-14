@@ -34,10 +34,12 @@
         </activity>
         <activity
             android:name=".activities.ShareActivity"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.AboutActivity" />
+        <activity android:name=".activities.AboutActivity" android:launchMode="singleInstance"/>
+        <activity android:name=".activities.ActivityPersonalActivity" android:launchMode="singleInstance"/>
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>

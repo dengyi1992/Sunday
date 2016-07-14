@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/side_nav_bar"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:id="@+id/bt_setting_register"
+                    android:layout_width="0dp"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="注册" />
+
+                <TextView
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:id="@+id/bt_setting_login"
+                    android:layout_width="0dp"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="登录" />
+            </LinearLayout>
+        </FrameLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

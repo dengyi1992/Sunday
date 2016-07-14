@@ -71,7 +71,7 @@ public class TweetsListItemAdapter extends BaseAdapter {
         holder.content.setText(object.getContent());
 //        holder.gridView
         holder.likeCount.setText(object.getZan()+"");
-        holder.commentCount.setText(object.getComments().size()+"K");
+        holder.commentCount.setText(object.getComments().size()+"");
     }
 
     protected class ViewHolder {
