@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.huawei.gxlm.sunday">
+    package="com.huawei.gxlm.sunday"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -38,11 +42,18 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.AboutActivity" android:launchMode="singleInstance"/>
-        <activity android:name=".activities.ActivityPersonalActivity" android:launchMode="singleInstance"/>
+        <activity
+            android:name=".activities.AboutActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".activities.ActivityPersonalActivity"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".activities.PublishActivity" />
+        <activity android:name=".activities.TweetDetailActivity" />
+
         <service android:name=".serivice.UpdateService"></service>
     </application>
 

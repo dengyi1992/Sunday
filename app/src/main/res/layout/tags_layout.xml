@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huawei.gxlm.sunday.AutoNewLineLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <!--<item>文章</item>-->
+    <!--<item>活动</item>-->
+    <!--<item>校园交易</item>-->
+    <!--<item>技术</item>-->
+    <!--<item>学习</item>-->
+    <!--<item>摄影</item>-->
+    <!--<item>组团</item>-->
+    <!--<item>运动</item>-->
+    <CheckBox
+        android:id="@+id/cb_artical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="文章" />
+
+    <CheckBox
+        android:id="@+id/cb_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="活动" />
+
+    <CheckBox
+        android:id="@+id/cb_trade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="校园交易" />
+
+    <CheckBox
+        android:id="@+id/cb_learning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="学习" />
+
+    <CheckBox
+        android:id="@+id/cb_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="摄影" />
+
+    <CheckBox
+        android:id="@+id/cb_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="组团" />
+    <CheckBox
+        android:id="@+id/cb_sport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_tag_checkbox"
+        android:button="@null"
+        android:padding="5dp"
+        android:text="运动" />
+
+
+
+</com.huawei.gxlm.sunday.AutoNewLineLinearLayout>

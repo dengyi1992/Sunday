@@ -1,7 +1,11 @@
 package com.huawei.gxlm.sunday.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +24,7 @@ import android.widget.TextView;
 import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.serivice.UpdateService;
+import com.huawei.gxlm.sunday.utils.HttpUtils;
 import com.huawei.gxlm.sunday.utils.SysUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -39,9 +44,10 @@ public class SpalashActivity extends AppCompatActivity {
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+
         }
     };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +72,13 @@ public class SpalashActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         init();
+
+//        updateCheck();
     }
 
+
+
     private void init() {
-//        startService(new Intent(this, UpdateService.class));
         initAnimation();
     }
 

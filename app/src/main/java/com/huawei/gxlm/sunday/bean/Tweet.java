@@ -1,5 +1,9 @@
 package com.huawei.gxlm.sunday.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -143,10 +147,10 @@ public class Tweet {
         }
     }
 
-    public static class PostsEntity {
+    public static class PostsEntity implements Parcelable {
         private String _id;
         private String name;
-        private Object head;
+        private String head;
         /**
          * date : 2016-07-13T13:22:36.730Z
          * year : 2016
@@ -159,7 +163,7 @@ public class Tweet {
         private String content;
         private String title;
         private String imgurls;
-        private Object icons;
+        private String icons;
         private int pv;
         private int zan;
         private List<String> tags;
@@ -187,11 +191,11 @@ public class Tweet {
             this.name = name;
         }
 
-        public Object getHead() {
+        public String getHead() {
             return head;
         }
 
-        public void setHead(Object head) {
+        public void setHead(String head) {
             this.head = head;
         }
 
@@ -227,11 +231,11 @@ public class Tweet {
             this.imgurls = imgurls;
         }
 
-        public Object getIcons() {
+        public String getIcons() {
             return icons;
         }
 
-        public void setIcons(Object icons) {
+        public void setIcons(String icons) {
             this.icons = icons;
         }
 
@@ -275,7 +279,7 @@ public class Tweet {
             this.reprint_info = reprint_info;
         }
 
-        public static class TimeEntity {
+        public static class TimeEntity implements Parcelable {
             private String date;
             private int year;
             private String month;
@@ -326,6 +330,94 @@ public class Tweet {
             public void setMinute(String minute) {
                 this.minute = minute;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.date);
+                dest.writeInt(this.year);
+                dest.writeString(this.month);
+                dest.writeString(this.day);
+                dest.writeString(this.minute);
+            }
+
+            public TimeEntity() {
+            }
+
+            protected TimeEntity(Parcel in) {
+                this.date = in.readString();
+                this.year = in.readInt();
+                this.month = in.readString();
+                this.day = in.readString();
+                this.minute = in.readString();
+            }
+
+            public static final Creator<TimeEntity> CREATOR = new Creator<TimeEntity>() {
+                public TimeEntity createFromParcel(Parcel source) {
+                    return new TimeEntity(source);
+                }
+
+                public TimeEntity[] newArray(int size) {
+                    return new TimeEntity[size];
+                }
+            };
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this._id);
+            dest.writeString(this.name);
+            dest.writeString(this.head);
+            dest.writeParcelable(this.time, flags);
+            dest.writeString(this.content);
+            dest.writeString(this.title);
+            dest.writeString(this.imgurls);
+            dest.writeString(this.icons);
+            dest.writeInt(this.pv);
+            dest.writeInt(this.zan);
+            dest.writeStringList(this.tags);
+            dest.writeList(this.comments);
+            dest.writeList(this.reprint_info);
+        }
+
+        public PostsEntity() {
+        }
+
+        protected PostsEntity(Parcel in) {
+            this._id = in.readString();
+            this.name = in.readString();
+            this.head = in.readParcelable(Object.class.getClassLoader());
+            this.time = in.readParcelable(TimeEntity.class.getClassLoader());
+            this.content = in.readString();
+            this.title = in.readString();
+            this.imgurls = in.readString();
+            this.icons = in.readParcelable(Object.class.getClassLoader());
+            this.pv = in.readInt();
+            this.zan = in.readInt();
+            this.tags = in.createStringArrayList();
+//            this.comments = new ArrayList<?>();
+            in.readList(this.comments, List.class.getClassLoader());
+//            this.reprint_info = new ArrayList<?>();
+            in.readList(this.reprint_info, List.class.getClassLoader());
+        }
+
+        public static final Parcelable.Creator<PostsEntity> CREATOR = new Parcelable.Creator<PostsEntity>() {
+            public PostsEntity createFromParcel(Parcel source) {
+                return new PostsEntity(source);
+            }
+
+            public PostsEntity[] newArray(int size) {
+                return new PostsEntity[size];
+            }
+        };
     }
 }

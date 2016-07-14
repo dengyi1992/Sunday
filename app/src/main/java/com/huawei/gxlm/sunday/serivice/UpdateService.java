@@ -1,14 +1,27 @@
 package com.huawei.gxlm.sunday.serivice;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+
+import com.huawei.gxlm.sunday.R;
+import com.huawei.gxlm.sunday.api.Api;
+import com.huawei.gxlm.sunday.utils.HttpUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by deng on 16-7-13.

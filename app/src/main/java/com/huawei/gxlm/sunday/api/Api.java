@@ -8,8 +8,9 @@ public class Api {
     public static final String URL_SPLASH_IMG = "http://news-at.zhihu.com/api/4/start-image/";
   //测试的详情地址
     public static final String DETAIL_URL = "http://news-at.zhihu.com/api/4/news/3892357";
-    public static final String ALL_ARTICAL = "http://115.159.0.155:2888";
-    public static final String LOGINURL = ALL_ARTICAL + "/login";
-    public static final String REGURL = ALL_ARTICAL + "/reg";
-    public static final java.lang.String ABOUT = ALL_ARTICAL + "/haibao";
+    public static final String HOST = "http://115.159.0.155:2888";
+    public static final String LOGINURL = HOST + "/login";
+    public static final String REGURL = HOST + "/reg";
+    public static final java.lang.String ABOUT = HOST + "/haibao";
+    public static final String UPDATE_INFO = HOST+"/verison.json";
 }

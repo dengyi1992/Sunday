@@ -1,7 +1,10 @@
 package com.huawei.gxlm.sunday.activities;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.adapter.TweetsListItemAdapter;
 import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.bean.Tweet;
+import com.huawei.gxlm.sunday.serivice.UpdateService;
 import com.huawei.gxlm.sunday.utils.HttpUtils;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.Types.BoomType;
@@ -34,12 +38,16 @@ import com.nightonke.boommenu.Types.ButtonType;
 import com.nightonke.boommenu.Types.PlaceType;
 import com.nightonke.boommenu.Util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
+    private static final int NEW_VERISON_APP = 3;
 
     private static final int GET_DATA_SUCCESS = 1;
     private ListView mainList;
@@ -61,7 +69,40 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
+    private JSONObject jsonObject;
+    Handler mHandler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case NEW_VERISON_APP:
+//                    弹出对话框,是否更新
+//                    startService(new Intent(SpalashActivity.this,UpdateService.class));
+                    try {
+                        String versionName = jsonObject.getString("versionName");
+                        String updateinfo = jsonObject.getString("updateinfo");
+                        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setIcon(R.mipmap.logo1).
+                                setTitle("有检测到一个新的版本,是否需要更新?").setMessage("版本号:" + versionName + "\n更新内容:" + updateinfo)
+                                .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        startService(new Intent(MainActivity.this, UpdateService.class));
+                                    }
+                                }).setNegativeButton("下次再说", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                                    }
+                                }).create();
+                        alertDialog.show();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +131,38 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startAct(TweetDetailActivity.class);
+            }
+        });
         initData();
+        updateCheck();
     }
-
+    private void updateCheck() {
+        HttpUtils.doGetAsyn(Api.UPDATE_INFO, new HttpUtils.CallBack() {
+            @Override
+            public void onRequestComplete(String result) {
+                try {
+                    jsonObject = new JSONObject(result);
+                    int versionCode = jsonObject.getInt("versionCode");
+                    PackageManager pm = getPackageManager();
+                    PackageInfo packageInfo = pm.getPackageInfo(getPackageName(), 0);
+                    /**
+                     * 根据版本号更新
+                     */
+                    if(packageInfo.versionCode<versionCode){
+                        mHandler.sendEmptyMessage(NEW_VERISON_APP);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
     private void initData() {
         allName = getResources().getStringArray(R.array.all_type);
         MainData=new ArrayList<>();
@@ -102,7 +172,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getDataFromWeb() {
-        HttpUtils.doGetAsyn(Api.ALL_ARTICAL + "?p="+Loaded, new HttpUtils.CallBack() {
+        HttpUtils.doGetAsyn(Api.HOST + "?p="+Loaded, new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
                 Gson gson = new Gson();
@@ -268,7 +338,7 @@ public class MainActivity extends AppCompatActivity
     private void changeContent(int i) {
         //网络请求
         String type = allName[i];
-        HttpUtils.doGetAsyn(Api.ALL_ARTICAL + "?" + type, new HttpUtils.CallBack() {
+        HttpUtils.doGetAsyn(Api.HOST + "?" + type, new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
                 //处理页面更新
@@ -323,6 +393,11 @@ public class MainActivity extends AppCompatActivity
     }
     @Override
     public void onClick(int buttonIndex) {
+        switch (buttonIndex){
+            case 0:
+                startAct(PublishActivity.class);
+                break;
+        }
 
     }
 
