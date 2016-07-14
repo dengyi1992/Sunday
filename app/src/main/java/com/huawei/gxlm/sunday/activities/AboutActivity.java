@@ -1,8 +1,10 @@
 package com.huawei.gxlm.sunday.activities;
 
 import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -45,8 +47,25 @@ public class AboutActivity extends AppCompatActivity {
 //                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 //                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //        }
-    }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                actionBar.setElevation(0);
+            }
 
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+//                this.finish();
+            default:
+                this.finish();
+                return super.onOptionsItemSelected(item);
+        }
+    }
     private class WebViewClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
