@@ -1,5 +1,7 @@
 package com.huawei.gxlm.sunday.api;
 
+import com.squareup.okhttp.HttpUrl;
+
 /**
  * Created by xiangzhihong on 2016/3/17 on 18:34.
  */
@@ -13,4 +15,5 @@ public class Api {
     public static final String REGURL = HOST + "/reg";
     public static final java.lang.String ABOUT = HOST + "/haibao";
     public static final String UPDATE_INFO = HOST+"/verison.json";
+    public static final String UPLOADURL = HOST + "/upload";
 }

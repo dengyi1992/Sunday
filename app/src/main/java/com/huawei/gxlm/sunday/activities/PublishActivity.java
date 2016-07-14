@@ -3,8 +3,11 @@ package com.huawei.gxlm.sunday.activities;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -20,12 +23,26 @@ import android.widget.Toast;
 
 //import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.huawei.gxlm.sunday.R;
+import com.huawei.gxlm.sunday.api.Api;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
 //import org.greenrobot.eventbus.EventBus;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
@@ -52,7 +69,10 @@ public class PublishActivity extends AppCompatActivity {
     ProgressBar progressBar;
     LinearLayout inputLayout;
     LinearLayout bottomLayout;
-
+    private static final int IMAGE_PICKER = 1;
+    private static final int IMGPOSTED = 2;
+    private static final int NETWORK_EORR = 3;
+    private static final int POSTSUCCESS = 4;
     ArrayList<String> mSelectPath;
 //    ArrayList<ImageInfo> mData = new ArrayList<>();
     EditText msgEdit;
@@ -60,6 +80,63 @@ public class PublishActivity extends AppCompatActivity {
 
     private boolean mFirstFocus = true;
     private LinearLayout mLinearLayoutTags;
+    private String imgResponse;
+    private String imgurl;
+    private String success;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case IMGPOSTED:
+                    if (imgResponse.contains("success")) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(imgResponse);
+                            imgurl = jsonObject.getString("imgurl");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        isFinished = true;
+//                        uploadInfo();
+
+
+                    } else {
+                        try {
+                            JSONObject jsonObject = new JSONObject(imgResponse);
+                            String error = jsonObject.getString("error");
+                            Toast.makeText(PublishActivity.this, error, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    break;
+                case NETWORK_EORR:
+                    Toast.makeText(PublishActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                    break;
+                case POSTSUCCESS:
+                    if (success.contains("success")) {
+                        Toast.makeText(PublishActivity.this, "发布成功，请等待审核", Toast.LENGTH_LONG).show();
+//                        resetData();
+
+                    } else {
+                        try {
+                            JSONObject jsonObject = new JSONObject(imgResponse);
+                            String error = jsonObject.getString("error");
+                            Toast.makeText(PublishActivity.this, error, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,5 +280,51 @@ public class PublishActivity extends AppCompatActivity {
     public static void actionStart(Context context) {
         Intent intent = new Intent(context, PublishActivity.class);
         context.startActivity(intent);
+    }
+
+
+
+    private boolean isFinished;
+
+    /**
+     * 图片上传
+     *
+     * @param path
+     */
+    private synchronized void uploadImage(String path,Context context) {
+        isFinished = false;
+        SharedPreferences cookie = context.getSharedPreferences("cookie", Context.MODE_PRIVATE);
+        String my_cookie = cookie.getString("my_cookie", null);
+        //多个图片文件列表
+        List<File> list = new ArrayList<File>();
+        File file = new File(path);
+        list.add(file);
+        //多文件表单上传构造器
+        MultipartBuilder multipartBuilder = new MultipartBuilder().type(MultipartBuilder.FORM);
+        //添加一个文本表单参数
+        multipartBuilder.addFormDataPart("name", "uploadimg");
+        for (File file1 : list) {
+            if (file1.exists()) {
+                multipartBuilder.addFormDataPart("filename", file1.getName(), RequestBody.create(MediaType.parse("image/png"), file1));
+            }
+        }
+        //构造文件上传时的请求对象Request
+        Request request = new Request.Builder().addHeader("Cookie", my_cookie).url(Api.UPLOADURL).post(multipartBuilder.build()).build();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                handler.sendEmptyMessage(NETWORK_EORR);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                imgResponse = response.body().string();
+                handler.sendEmptyMessage(IMGPOSTED);
+            }
+        });
+
+
     }
 }
