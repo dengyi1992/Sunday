@@ -107,7 +107,7 @@ public class UpdateService extends Service {
                         DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
                 //自动安装apk
-                installAPK(manager.getUriForDownloadedFile(downId));
+//                installAPK(manager.getUriForDownloadedFile(downId));
 
                 //停止服务并关闭广播
                 UpdateService.this.stopSelf();
