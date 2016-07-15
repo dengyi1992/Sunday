@@ -22,19 +22,19 @@ import android.widget.ImageButton;
 
 public class TweetsListItemAdapter extends BaseAdapter {
 
-    private List<Tweet.PostsEntity> objects = new ArrayList<Tweet.PostsEntity>();
+    private List<Tweet.PostsBean> objects = new ArrayList<Tweet.PostsBean>();
 
     private Context context;
     private LayoutInflater layoutInflater;
 
 
 
-    public TweetsListItemAdapter(Context context, List<Tweet.PostsEntity> objects) {
+    public TweetsListItemAdapter(Context context, List<Tweet.PostsBean> objects) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
         this.objects=objects;
 //        for (int i = 0; i < 5; i++) {
-//            objects.add(new Tweet.PostsEntity());
+//            objects.add(new Tweet.PostsBean());
 //        }
     }
 
@@ -44,7 +44,7 @@ public class TweetsListItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public Tweet.PostsEntity getItem(int position) {
+    public Tweet.PostsBean getItem(int position) {
         return objects.get(position);
     }
 
@@ -59,11 +59,11 @@ public class TweetsListItemAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.tweets_list_item, null);
             convertView.setTag(new ViewHolder(convertView));
         }
-        initializeViews((Tweet.PostsEntity)getItem(position), (ViewHolder) convertView.getTag());
+        initializeViews((Tweet.PostsBean)getItem(position), (ViewHolder) convertView.getTag());
         return convertView;
     }
 
-    private void initializeViews(Tweet.PostsEntity object, ViewHolder holder) {
+    private void initializeViews(Tweet.PostsBean object, ViewHolder holder) {
         //TODO implement
         Glide.with(context).load(object.getHead()).placeholder(R.mipmap.logo1).into(holder.avatar);
         holder.username.setText(object.getName());

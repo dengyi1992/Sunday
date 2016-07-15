@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private Spinner spinner;
     private String[] allName;
     private int Loaded=1;
-    private List<Tweet.PostsEntity> MainData;
+    private List<Tweet.PostsBean> MainData;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(Message msg) {

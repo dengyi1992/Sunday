@@ -1,4 +1,4 @@
-package com.huawei.gxlm.sunday;
+package com.huawei.gxlm.sunday.widget;
 
 /**
  * Created by deng on 16-7-14.

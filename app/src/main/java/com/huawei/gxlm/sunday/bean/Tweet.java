@@ -12,34 +12,24 @@ import java.util.List;
 public class Tweet {
 
     /**
-     * posts : [{"_id":"5786409cf4478b1dd49e624b","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:36.730Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5786409cf4478b1dd49e624a","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:36.571Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5786409cf4478b1dd49e6249","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:36.395Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5786409cf4478b1dd49e6248","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:36.235Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5786409cf4478b1dd49e6247","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:36.075Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5786409bf4478b1dd49e6246","name":"dengyi","head":null,"time":{"date":"2016-07-13T13:22:35.793Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"},"content":"postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost","title":"我是邓yi","tags":["wahh","asdasd","as23212"],"imgurls":"[{img:abc.png},{img:abc.png},{img:abc.png}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0}]
+     * posts : [{"_id":"5788712614dabe0f7aba9055","name":"dengyi","head":"http://www.gravatar.com/avatar/1a885ae77be414b8e1beda9298e08f7a?s=48","time":{"date":"2016-07-15T05:14:14.452Z","year":2016,"month":"2016-7","day":"2016-7-15","minute":"2016-7-15 13:14"},"content":"这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试","title":"这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试","tags":["活动","文章","校园交易"],"imgurls":"---------aasdasdf-----------adsfasdfsad","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"5788701514dabe0f7aba9054","name":"dengyi","head":"http://www.gravatar.com/avatar/1a885ae77be414b8e1beda9298e08f7a?s=48","time":{"date":"2016-07-15T05:09:41.557Z","year":2016,"month":"2016-7","day":"2016-7-15","minute":"2016-7-15 13:09"},"content":"这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试","title":"这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试","tags":["活动","文章","校园交易"],"imgurls":"[{img:\"abc.png\"},{img:\"abc.png\"},{img:\"abc.png\"}]","icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"57886fe714dabe0f7aba9053","name":"dengyi","head":"http://www.gravatar.com/avatar/1a885ae77be414b8e1beda9298e08f7a?s=48","time":{"date":"2016-07-15T05:08:55.144Z","year":2016,"month":"2016-7","day":"2016-7-15","minute":"2016-7-15 13:08"},"content":"Ghgsgvd ","title":"这是标题","tags":["文章",null,null],"imgurls":[],"icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0},{"_id":"57886fb214dabe0f7aba9052","name":"dengyi","head":"http://www.gravatar.com/avatar/1a885ae77be414b8e1beda9298e08f7a?s=48","time":{"date":"2016-07-15T05:08:02.307Z","year":2016,"month":"2016-7","day":"2016-7-15","minute":"2016-7-15 13:08"},"content":"Hshvdvdvdbb ","title":"这是标题","tags":["活动","文章","校园交易"],"imgurls":[],"icons":null,"comments":[],"reprint_info":[],"pv":0,"zan":0}]
      * page : 1
      * isFirstPage : true
      * isLastPage : true
-     * user : {"name":"dengyi","password":"c07b982d7ae82ed3c852455cecccf131","email":"978548481@qq.com","user_collection":"","account":0}
      */
 
     private int page;
     private boolean isFirstPage;
     private boolean isLastPage;
     /**
+     * _id : 5788712614dabe0f7aba9055
      * name : dengyi
-     * password : c07b982d7ae82ed3c852455cecccf131
-     * email : 978548481@qq.com
-     * user_collection :
-     * account : 0
-     */
-
-    private UserEntity user;
-    /**
-     * _id : 5786409cf4478b1dd49e624b
-     * name : dengyi
-     * head : null
-     * time : {"date":"2016-07-13T13:22:36.730Z","year":2016,"month":"2016-7","day":"2016-7-13","minute":"2016-7-13 21:22"}
-     * content : postpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpostpost
-     * title : 我是邓yi
-     * tags : ["wahh","asdasd","as23212"]
-     * imgurls : [{img:abc.png},{img:abc.png},{img:abc.png}]
+     * head : http://www.gravatar.com/avatar/1a885ae77be414b8e1beda9298e08f7a?s=48
+     * time : {"date":"2016-07-15T05:14:14.452Z","year":2016,"month":"2016-7","day":"2016-7-15","minute":"2016-7-15 13:14"}
+     * content : 这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试
+     * title : 这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试这是测试
+     * tags : ["活动","文章","校园交易"]
+     * imgurls : ---------aasdasdf-----------adsfasdfsad
      * icons : null
      * comments : []
      * reprint_info : []
@@ -47,12 +37,7 @@ public class Tweet {
      * zan : 0
      */
 
-    private List<PostsEntity> posts;
-
-    public static Tweet objectFromData(String str) {
-
-        return new com.google.gson.Gson().fromJson(str, Tweet.class);
-    }
+    private List<PostsBean> posts;
 
     public int getPage() {
         return page;
@@ -78,88 +63,27 @@ public class Tweet {
         this.isLastPage = isLastPage;
     }
 
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
-    public List<PostsEntity> getPosts() {
+    public List<PostsBean> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<PostsEntity> posts) {
+    public void setPosts(List<PostsBean> posts) {
         this.posts = posts;
     }
 
-    public static class UserEntity {
-        private String name;
-        private String password;
-        private String email;
-        private String user_collection;
-        private int account;
-
-        public static UserEntity objectFromData(String str) {
-
-            return new com.google.gson.Gson().fromJson(str, UserEntity.class);
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getUser_collection() {
-            return user_collection;
-        }
-
-        public void setUser_collection(String user_collection) {
-            this.user_collection = user_collection;
-        }
-
-        public int getAccount() {
-            return account;
-        }
-
-        public void setAccount(int account) {
-            this.account = account;
-        }
-    }
-
-    public static class PostsEntity implements Parcelable {
+    public static class PostsBean implements Parcelable {
         private String _id;
         private String name;
         private String head;
         /**
-         * date : 2016-07-13T13:22:36.730Z
+         * date : 2016-07-15T05:14:14.452Z
          * year : 2016
          * month : 2016-7
-         * day : 2016-7-13
-         * minute : 2016-7-13 21:22
+         * day : 2016-7-15
+         * minute : 2016-7-15 13:14
          */
 
-        private TimeEntity time;
+        private TimeBean time;
         private String content;
         private String title;
         private String imgurls;
@@ -169,11 +93,6 @@ public class Tweet {
         private List<String> tags;
         private List<?> comments;
         private List<?> reprint_info;
-
-        public static PostsEntity objectFromData(String str) {
-
-            return new com.google.gson.Gson().fromJson(str, PostsEntity.class);
-        }
 
         public String get_id() {
             return _id;
@@ -199,11 +118,11 @@ public class Tweet {
             this.head = head;
         }
 
-        public TimeEntity getTime() {
+        public TimeBean getTime() {
             return time;
         }
 
-        public void setTime(TimeEntity time) {
+        public void setTime(TimeBean time) {
             this.time = time;
         }
 
@@ -279,17 +198,12 @@ public class Tweet {
             this.reprint_info = reprint_info;
         }
 
-        public static class TimeEntity implements Parcelable {
+        public static class TimeBean implements Parcelable {
             private String date;
             private int year;
             private String month;
             private String day;
             private String minute;
-
-            public static TimeEntity objectFromData(String str) {
-
-                return new com.google.gson.Gson().fromJson(str, TimeEntity.class);
-            }
 
             public String getDate() {
                 return date;
@@ -345,10 +259,10 @@ public class Tweet {
                 dest.writeString(this.minute);
             }
 
-            public TimeEntity() {
+            public TimeBean() {
             }
 
-            protected TimeEntity(Parcel in) {
+            protected TimeBean(Parcel in) {
                 this.date = in.readString();
                 this.year = in.readInt();
                 this.month = in.readString();
@@ -356,13 +270,15 @@ public class Tweet {
                 this.minute = in.readString();
             }
 
-            public static final Creator<TimeEntity> CREATOR = new Creator<TimeEntity>() {
-                public TimeEntity createFromParcel(Parcel source) {
-                    return new TimeEntity(source);
+            public static final Creator<TimeBean> CREATOR = new Creator<TimeBean>() {
+                @Override
+                public TimeBean createFromParcel(Parcel source) {
+                    return new TimeBean(source);
                 }
 
-                public TimeEntity[] newArray(int size) {
-                    return new TimeEntity[size];
+                @Override
+                public TimeBean[] newArray(int size) {
+                    return new TimeBean[size];
                 }
             };
         }
@@ -389,14 +305,14 @@ public class Tweet {
             dest.writeList(this.reprint_info);
         }
 
-        public PostsEntity() {
+        public PostsBean() {
         }
 
-        protected PostsEntity(Parcel in) {
+        protected PostsBean(Parcel in) {
             this._id = in.readString();
             this.name = in.readString();
-            this.head = in.readParcelable(Object.class.getClassLoader());
-            this.time = in.readParcelable(TimeEntity.class.getClassLoader());
+            this.head = in.readString();
+            this.time = in.readParcelable(TimeBean.class.getClassLoader());
             this.content = in.readString();
             this.title = in.readString();
             this.imgurls = in.readString();
@@ -405,18 +321,20 @@ public class Tweet {
             this.zan = in.readInt();
             this.tags = in.createStringArrayList();
 //            this.comments = new ArrayList<?>();
-            in.readList(this.comments, List.class.getClassLoader());
+//            in.readList(this.comments, ?.class.getClassLoader());
 //            this.reprint_info = new ArrayList<?>();
-            in.readList(this.reprint_info, List.class.getClassLoader());
+//            in.readList(this.reprint_info, ?.class.getClassLoader());
         }
 
-        public static final Parcelable.Creator<PostsEntity> CREATOR = new Parcelable.Creator<PostsEntity>() {
-            public PostsEntity createFromParcel(Parcel source) {
-                return new PostsEntity(source);
+        public static final Parcelable.Creator<PostsBean> CREATOR = new Parcelable.Creator<PostsBean>() {
+            @Override
+            public PostsBean createFromParcel(Parcel source) {
+                return new PostsBean(source);
             }
 
-            public PostsEntity[] newArray(int size) {
-                return new PostsEntity[size];
+            @Override
+            public PostsBean[] newArray(int size) {
+                return new PostsBean[size];
             }
         };
     }

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -93,40 +94,15 @@ public class PublishActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case IMGPOSTED:
-                    if (imgResponse.contains("success")) {
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(imgResponse);
-                            imgurl = jsonObject.getString("imgurl");
-                            JSONObject image = new JSONObject();
-                            image.put("img", imgurl);
-                            images.put(image);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        isFinished = true;
-//                        uploadInfo();
-
-
-                    } else {
-                        try {
-                            JSONObject jsonObject = new JSONObject(imgResponse);
-                            String error = jsonObject.getString("error");
-                            Toast.makeText(PublishActivity.this, error, Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
+                    uploadInfo();
                     break;
                 case NETWORK_EORR:
                     Toast.makeText(PublishActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
                     break;
                 case POSTSUCCESS:
                     if (success.contains("success")) {
-                        Toast.makeText(PublishActivity.this, "发布成功，请等待审核", Toast.LENGTH_LONG).show();
+                        Toast.makeText(PublishActivity.this, "发布成功", Toast.LENGTH_LONG).show();
+                        finish();
 //                        resetData();
 
                     } else {
@@ -145,9 +121,17 @@ public class PublishActivity extends AppCompatActivity {
             }
         }
     };
-    private JSONArray images;
+    private String images;
     private SharedPreferences cookie;
     private String my_cookie;
+    private CheckBox cbArtical;
+    private CheckBox cbActivity;
+    private CheckBox cbTrade;
+    private CheckBox cbLearning;
+    private CheckBox cbGroup;
+    private CheckBox cbPic;
+    private CheckBox cbSport;
+    private String[] tags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +148,13 @@ public class PublishActivity extends AppCompatActivity {
         btnSend = (ImageButton) findViewById(R.id.btn_send);
         bottomLayout = (LinearLayout) findViewById(R.id.bottom_layout);
         mLinearLayoutTags = (LinearLayout) findViewById(R.id.ll_tags);
+        cbArtical = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_artical);
+        cbActivity = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_activity);
+        cbTrade = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_trade);
+        cbLearning = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_learning);
+        cbGroup = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_group);
+        cbPic = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_pic);
+        cbSport = (CheckBox) mLinearLayoutTags.findViewById(R.id.cb_sport);
 
 
         btnPopPhoto.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +189,7 @@ public class PublishActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setTitle("发动态");
             actionBar.setDisplayHomeAsUpEnabled(true);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 actionBar.setElevation(0);
             }
 
@@ -207,12 +198,39 @@ public class PublishActivity extends AppCompatActivity {
 
     private void sendTweet() {
         showProgress(false);
-        for (int i = 0; i < mData.size(); i++) {
-            uploadImage(mData.get(i).getImagePath(),this);
+        int count = 0;
+        tags = new String[7];
+        if (cbActivity.isChecked())
+            tags[count++] = "活动";
+        if (cbArtical.isChecked())
+            tags[count++] = "文章";
+        if (cbGroup.isChecked())
+            tags[count++] = "组团";
+        if (cbLearning.isChecked())
+            tags[count++] = "学习";
+        if (cbPic.isChecked())
+            tags[count++] = "摄影";
+        if (cbTrade.isChecked())
+            tags[count++] = "校园交易";
+        if (cbSport.isChecked())
+            tags[count++] = "运动";
+        if (count == 0) {
+            Toast.makeText(this, "请至少选择一个标签", Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (count > 3) {
+            Toast.makeText(this, "请最多不超过3个标签", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (mData.size()==0){
+            uploadInfo();
+            return;
+        }
+//        for (int i = 0; i < mData.size(); i++) {
+            uploadImage(mData, 0, this);
+//        }
         //获取上传图片的信息
 //        构建json
-
 
 
 //        if (info.getResult() != null && info.getResult().equals(NetworkManager.SUCCESS)) {
@@ -228,7 +246,9 @@ public class PublishActivity extends AppCompatActivity {
 //            Toast.makeText(PublishActivity.this, getString(R.string.error_network)
 //                    , Toast.LENGTH_SHORT).show();
 //        }
+
     }
+
     private void uploadInfo() {
         //申明给服务端传递一个json串
         //创建一个OkHttpClient对象
@@ -237,12 +257,12 @@ public class PublishActivity extends AppCompatActivity {
 
         JSONObject jsonObject = new JSONObject();
         try {
-
-//            jsonObject.put("addesc", etAdINfo);
+            jsonObject.put("title", "这是标题");
+            jsonObject.put("post", msgEdit.getText().toString());
             jsonObject.put("imgurls", images);
-//            jsonObject.put("tag1", textClass);
-//            jsonObject.put("tag2", textAge);
-//            jsonObject.put("tag3", textGender);
+            jsonObject.put("tag1", tags[0]);
+            jsonObject.put("tag2", tags[1]);
+            jsonObject.put("tag3", tags[2]);
 //            jsonObject.put("icons", 2);
 
         } catch (JSONException e) {
@@ -285,9 +305,8 @@ public class PublishActivity extends AppCompatActivity {
     }
 
 
-
     private void initEnter() {
-        images = new JSONArray();
+        images = "";
 
 
     }
@@ -298,7 +317,7 @@ public class PublishActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         super.onDestroy();
     }
 
@@ -363,21 +382,25 @@ public class PublishActivity extends AppCompatActivity {
     }
 
 
-
     private boolean isFinished;
 
     /**
      * 图片上传
      *
-     * @param path
+     * @param imageInfos
      */
-    private synchronized void uploadImage(String path,Context context) {
+    private synchronized void uploadImage(final ArrayList<ImageInfo> imageInfos, final int index, final Context context) {
+        if (index > imageInfos.size() - 1) {
+            //完成
+            handler.sendEmptyMessage(IMGPOSTED);
+            return;
+        }
         isFinished = false;
-        cookie = context.getSharedPreferences("cookie", Context.MODE_PRIVATE);
-        my_cookie = cookie.getString("my_cookie", null);
+
         //多个图片文件列表
         List<File> list = new ArrayList<File>();
-        File file = new File(path);
+        String imagePath = imageInfos.get(index).getImagePath();
+        File file = new File(imagePath);
         list.add(file);
         //多文件表单上传构造器
         MultipartBuilder multipartBuilder = new MultipartBuilder().type(MultipartBuilder.FORM);
@@ -401,10 +424,25 @@ public class PublishActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response response) throws IOException {
                 imgResponse = response.body().string();
-                handler.sendEmptyMessage(IMGPOSTED);
+                try {
+                    JSONObject jsonObject = new JSONObject(imgResponse);
+                    String imgurl = jsonObject.getString("imgurl");
+                    images=images+"---***---"+imgurl;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                handler.sendEmptyMessage(IMGPOSTED);
+                uploadImage(imageInfos, index + 1, context);
             }
         });
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cookie = getSharedPreferences("cookie", Context.MODE_PRIVATE);
+        my_cookie = cookie.getString("my_cookie", null);
     }
 }
