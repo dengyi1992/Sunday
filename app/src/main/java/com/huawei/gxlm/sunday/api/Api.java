@@ -16,4 +16,5 @@ public class Api {
     public static final java.lang.String ABOUT = HOST + "/haibao";
     public static final String UPDATE_INFO = HOST+"/verison.json";
     public static final String UPLOADURL = HOST + "/upload";
+    public static final String POSTURL = HOST + "/post";
 }

@@ -24,6 +24,7 @@ import android.widget.Toast;
 //import com.github.ybq.android.spinkit.style.ThreeBounce;
 import com.huawei.gxlm.sunday.R;
 import com.huawei.gxlm.sunday.api.Api;
+import com.huawei.gxlm.sunday.bean.ImageInfo;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -36,12 +37,14 @@ import com.squareup.picasso.Picasso;
 
 //import org.greenrobot.eventbus.EventBus;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
@@ -74,7 +77,7 @@ public class PublishActivity extends AppCompatActivity {
     private static final int NETWORK_EORR = 3;
     private static final int POSTSUCCESS = 4;
     ArrayList<String> mSelectPath;
-//    ArrayList<ImageInfo> mData = new ArrayList<>();
+    ArrayList<ImageInfo> mData = new ArrayList<>();
     EditText msgEdit;
 
 
@@ -83,6 +86,8 @@ public class PublishActivity extends AppCompatActivity {
     private String imgResponse;
     private String imgurl;
     private String success;
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -93,6 +98,9 @@ public class PublishActivity extends AppCompatActivity {
                         try {
                             jsonObject = new JSONObject(imgResponse);
                             imgurl = jsonObject.getString("imgurl");
+                            JSONObject image = new JSONObject();
+                            image.put("img", imgurl);
+                            images.put(image);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -137,6 +145,9 @@ public class PublishActivity extends AppCompatActivity {
             }
         }
     };
+    private JSONArray images;
+    private SharedPreferences cookie;
+    private String my_cookie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +182,7 @@ public class PublishActivity extends AppCompatActivity {
                     return;
                 }
                 showProgress(true);
+                sendTweet();
 //                DataPresenter.sendTweet(YouJoinApplication.getCurrUser().getId(),
 //                        msgEdit.getText().toString(), mData, PublishActivity.this);
             }
@@ -193,6 +205,73 @@ public class PublishActivity extends AppCompatActivity {
         }
     }
 
+    private void sendTweet() {
+        showProgress(false);
+        for (int i = 0; i < mData.size(); i++) {
+            uploadImage(mData.get(i).getImagePath(),this);
+        }
+        //获取上传图片的信息
+//        构建json
+
+
+
+//        if (info.getResult() != null && info.getResult().equals(NetworkManager.SUCCESS)) {
+//            msgEdit.setText("");
+//            mData.clear();
+//            layPhotoContainer.removeAllViews();
+//            GlobalUtils.popSoftkeyboard(PublishActivity.this, msgEdit, false);
+//            Toast.makeText(PublishActivity.this, getString(R.string.send_tweet_success)
+//                    , Toast.LENGTH_SHORT).show();
+//            EventBus.getDefault().post(new SendTweetEvent());
+//            PublishActivity.this.finish();
+//        } else {
+//            Toast.makeText(PublishActivity.this, getString(R.string.error_network)
+//                    , Toast.LENGTH_SHORT).show();
+//        }
+    }
+    private void uploadInfo() {
+        //申明给服务端传递一个json串
+        //创建一个OkHttpClient对象
+        OkHttpClient okHttpClient = new OkHttpClient();
+        //创建一个RequestBody(参数1：数据类型 参数2传递的json串)
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+//            jsonObject.put("addesc", etAdINfo);
+            jsonObject.put("imgurls", images);
+//            jsonObject.put("tag1", textClass);
+//            jsonObject.put("tag2", textAge);
+//            jsonObject.put("tag3", textGender);
+//            jsonObject.put("icons", 2);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String json = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(JSON, json);
+        //创建一个请求对象
+        Request request = new Request.Builder()
+                .url(Api.POSTURL)
+                .addHeader("Cookie", my_cookie)
+                .post(requestBody)
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                handler.sendEmptyMessage(NETWORK_EORR);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                success = response.body().string();
+                handler.sendEmptyMessage(POSTSUCCESS);
+            }
+        });
+//
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -208,6 +287,7 @@ public class PublishActivity extends AppCompatActivity {
 
 
     private void initEnter() {
+        images = new JSONArray();
 
 
     }
@@ -250,7 +330,7 @@ public class PublishActivity extends AppCompatActivity {
                                         LinearLayout.LayoutParams.WRAP_CONTENT));
                     }
 
-//                    mData.add(new ImageInfo(p));
+                    mData.add(new ImageInfo(p));
                 }
                 //yjPublishEdit.setText(sb.toString());
             }
@@ -293,8 +373,8 @@ public class PublishActivity extends AppCompatActivity {
      */
     private synchronized void uploadImage(String path,Context context) {
         isFinished = false;
-        SharedPreferences cookie = context.getSharedPreferences("cookie", Context.MODE_PRIVATE);
-        String my_cookie = cookie.getString("my_cookie", null);
+        cookie = context.getSharedPreferences("cookie", Context.MODE_PRIVATE);
+        my_cookie = cookie.getString("my_cookie", null);
         //多个图片文件列表
         List<File> list = new ArrayList<File>();
         File file = new File(path);
