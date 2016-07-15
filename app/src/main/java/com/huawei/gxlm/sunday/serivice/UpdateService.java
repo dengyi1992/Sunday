@@ -107,7 +107,7 @@ public class UpdateService extends Service {
                         DownloadManager.EXTRA_DOWNLOAD_ID, -1);
 
                 //自动安装apk
-//                installAPK(manager.getUriForDownloadedFile(downId));
+                installAPK(manager.getUriForDownloadedFile(downId));
 
                 //停止服务并关闭广播
                 UpdateService.this.stopSelf();
@@ -119,20 +119,24 @@ public class UpdateService extends Service {
          * 安装apk文件
          */
         private void installAPK(Uri apk) {
-
-            // 通过Intent安装APK文件
-            Intent intents = new Intent();
-
-            intents.setAction("android.intent.action.VIEW");
-            intents.addCategory("android.intent.category.DEFAULT");
-            intents.setType("application/vnd.android.package-archive");
-            intents.setData(apk);
-            intents.setDataAndType(apk,"application/vnd.android.package-archive");
-            intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            // 如果不加上这句的话在apk安装完成之后点击单开会崩溃
-
-            startActivity(intents);
+            Intent install = new Intent();
+            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            install.setAction(android.content.Intent.ACTION_VIEW);
+            install.setDataAndType(apk,"application/vnd.android.package-archive");
+            startActivity(install);
+//            // 通过Intent安装APK文件
+//            Intent intents = new Intent();
+//
+//            intents.setAction("android.intent.action.VIEW");
+//            intents.addCategory("android.intent.category.DEFAULT");
+//            intents.setType("application/vnd.android.package-archive");
+//            intents.setData(apk);
+//            intents.setDataAndType(apk,"application/vnd.android.package-archive");
+//            intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            // 如果不加上这句的话在apk安装完成之后点击单开会崩溃
+//
+//            startActivity(intents);
 
         }
 

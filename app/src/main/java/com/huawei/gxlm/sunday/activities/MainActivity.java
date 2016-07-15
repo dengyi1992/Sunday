@@ -62,12 +62,12 @@ public class MainActivity extends AppCompatActivity
     private BoomMenuButton boomMenuButton;
     private Spinner spinner;
     private String[] allName;
-    private int Loaded=1;
+    private int Loaded = 1;
     private List<Tweet.PostsBean> MainData;
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case GET_DATA_SUCCESS:
                     tweetsListItemAdapter.notifyDataSetChanged();
                     break;
@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity
         }
     };
     private JSONObject jsonObject;
-    Handler mHandler=new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case NEW_VERISON_APP:
 //                    弹出对话框,是否更新
 //                    startService(new Intent(SpalashActivity.this,UpdateService.class));
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainList = (ListView) findViewById(R.id.main_list);
-        MainData=new ArrayList<>();
+        MainData = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -167,7 +167,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 startAct(RegisterActivity.class);
             }
-        });headerImage.setOnClickListener(new View.OnClickListener() {
+        });
+        headerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startAct(ActivityPersonalActivity.class);
@@ -187,7 +188,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-    private void resumeView(){
+
+    private void resumeView() {
         sharedPreferences = getSharedPreferences("loginInfo", Context.MODE_PRIVATE);
         isLogin = sharedPreferences.getBoolean("isLogin", false);
         String name = sharedPreferences.getString("name", null);
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -222,7 +225,7 @@ public class MainActivity extends AppCompatActivity
                     /**
                      * 根据版本号更新
                      */
-                    if(packageInfo.versionCode<versionCode){
+                    if (packageInfo.versionCode < versionCode) {
                         mHandler.sendEmptyMessage(NEW_VERISON_APP);
                     }
                 } catch (JSONException e) {
@@ -233,21 +236,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
     private void initData() {
         allName = getResources().getStringArray(R.array.all_type);
-        MainData=new ArrayList<>();
-        tweetsListItemAdapter = new TweetsListItemAdapter(this,MainData);
+        MainData = new ArrayList<>();
+        tweetsListItemAdapter = new TweetsListItemAdapter(this, MainData);
         mainList.setAdapter(tweetsListItemAdapter);
         getDataFromWeb();
     }
 
     private void getDataFromWeb() {
-        HttpUtils.doGetAsyn(Api.HOST + "?p="+Loaded, new HttpUtils.CallBack() {
+        HttpUtils.doGetAsyn(Api.HOST + "?p=" + Loaded, new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
                 Gson gson = new Gson();
                 Tweet tweet = gson.fromJson(result, Tweet.class);
-                if (Loaded==1){
+                if (Loaded == 1) {
                     MainData.clear();
 
                 }
@@ -278,29 +282,31 @@ public class MainActivity extends AppCompatActivity
 
         Drawable[] drawables = new Drawable[number];
         int[] drawablesResource = new int[]{
-                R.drawable.mark,
+                R.drawable.add,
+                R.drawable.settings,
                 R.drawable.refresh,
+                R.drawable.share1,
+                R.drawable.mark,
                 R.drawable.copy,
                 R.drawable.heart,
-                R.drawable.info,
                 R.drawable.like,
                 R.drawable.record,
-                R.drawable.search,
-                R.drawable.settings
+                R.drawable.search
         };
         for (int i = 0; i < number; i++)
             drawables[i] = ContextCompat.getDrawable(MainActivity.this, drawablesResource[i]);
 
         String[] STRINGS = new String[]{
+                "发布",
+                "设置",
+                "刷新",
+                "分享",
                 "Mark",
-                "Refresh",
                 "Copy",
                 "Heart",
-                "Info",
                 "Like",
                 "Record",
-                "Search",
-                "Settings"
+                "Search"
         };
         String[] strings = new String[number];
         for (int i = 0; i < number; i++)
@@ -403,6 +409,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * 改变网络参数
+     *
      * @param i
      */
     private void changeContent(int i) {
@@ -458,14 +465,28 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private void startAct(Class<?> activity){
-        startActivity(new Intent(this,activity));
+
+    private void startAct(Class<?> activity) {
+        startActivity(new Intent(this, activity));
     }
+
     @Override
     public void onClick(int buttonIndex) {
-        switch (buttonIndex){
+        switch (buttonIndex) {
             case 0:
                 startAct(PublishActivity.class);
+                break;
+            case 1:
+                startAct(SettingsActivity.class);
+                break;
+            case 2:
+//                startAct(SettingsActivity.class);
+                break;
+            case 3:
+                startAct(ShareActivity.class);
+
+                break;
+            default:
                 break;
         }
 

@@ -98,10 +98,12 @@ public class PublishActivity extends AppCompatActivity {
                     break;
                 case NETWORK_EORR:
                     Toast.makeText(PublishActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                    showProgress(false);
                     break;
                 case POSTSUCCESS:
                     if (success.contains("success")) {
                         Toast.makeText(PublishActivity.this, "发布成功", Toast.LENGTH_LONG).show();
+                        showProgress(false);
                         finish();
 //                        resetData();
 
@@ -197,7 +199,7 @@ public class PublishActivity extends AppCompatActivity {
     }
 
     private void sendTweet() {
-        showProgress(false);
+        showProgress(true);
         int count = 0;
         tags = new String[7];
         if (cbActivity.isChecked())
@@ -215,10 +217,13 @@ public class PublishActivity extends AppCompatActivity {
         if (cbSport.isChecked())
             tags[count++] = "运动";
         if (count == 0) {
+            showProgress(false);
+
             Toast.makeText(this, "请至少选择一个标签", Toast.LENGTH_SHORT).show();
             return;
         }
         if (count > 3) {
+            showProgress(false);
             Toast.makeText(this, "请最多不超过3个标签", Toast.LENGTH_SHORT).show();
             return;
         }
