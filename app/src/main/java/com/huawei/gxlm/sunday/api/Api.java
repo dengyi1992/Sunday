@@ -17,4 +17,7 @@ public class Api {
     public static final String UPDATE_INFO = HOST+"/verison.json";
     public static final String UPLOADURL = HOST + "/upload";
     public static final String POSTURL = HOST + "/post";
+  public static final String LOGOUT_URL = HOST + "/logout";
+  public static final String CHANGEPASSURL = HOST + "/changepass";
+  public static final String TAGS = "http://115.159.0.155:2888/tags/";
 }

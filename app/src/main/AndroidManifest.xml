@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 
     <application
@@ -53,6 +54,8 @@
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".activities.PublishActivity" />
         <activity android:name=".activities.TweetDetailActivity" />
+        <activity android:name=".activities.ChangePassActivity"/>
+        <activity android:name=".activities.AccountActivity"/>
 
         <service android:name=".serivice.UpdateService"></service>
     </application>

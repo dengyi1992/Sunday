@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.huawei.gxlm.sunday.R;
@@ -46,6 +48,8 @@ import com.nightonke.boommenu.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private static final int NEW_VERISON_APP = 3;
 
     private static final int GET_DATA_SUCCESS = 1;
+    private static final int GET_DATA_FAIL = 2;
     private ListView mainList;
     private TweetsListItemAdapter tweetsListItemAdapter;
     private BoomMenuButton boomMenuButton;
@@ -70,6 +75,9 @@ public class MainActivity extends AppCompatActivity
             switch (msg.what) {
                 case GET_DATA_SUCCESS:
                     tweetsListItemAdapter.notifyDataSetChanged();
+                    break;
+                case GET_DATA_FAIL:
+                    Toast.makeText(MainActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -415,14 +423,43 @@ public class MainActivity extends AppCompatActivity
     private void changeContent(int i) {
         //网络请求
         String type = allName[i];
-        HttpUtils.doGetAsyn(Api.HOST + "?" + type, new HttpUtils.CallBack() {
-            @Override
-            public void onRequestComplete(String result) {
-                //处理页面更新
-            }
-        });
+        String url = Api.HOST;
+        switch (type) {
+            case "全部":
+                url = Api.HOST;
+                break;
+            case "最火":
+                url = Api.HOST;
+                break;
+            default:
+                try {
+                    url = Api.TAGS + URLEncoder.encode(type, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+            HttpUtils.doGetAsyn( url, new HttpUtils.CallBack() {
+                @Override
+                public void onRequestComplete(String result) {
+                    if (result.contains("success")) {
+                        handler.sendEmptyMessage(GET_DATA_FAIL);
+                    } else {
+                        //处理页面更新
+                        Gson gson = new Gson();
+                        Tweet tweet = gson.fromJson(result, Tweet.class);
+    //                if (Loaded == 1) {
+                        MainData.clear();
+    //                }
+                        MainData.addAll(tweet.getPosts());
+                        handler.sendEmptyMessage(GET_DATA_SUCCESS);
+                    }
+
+                }
+            });
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

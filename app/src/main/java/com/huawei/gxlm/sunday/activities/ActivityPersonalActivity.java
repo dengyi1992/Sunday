@@ -99,11 +99,12 @@ public class ActivityPersonalActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 switch (position) {
                     case 0:
-//                        iftoDetail(AccountActivity.class);
+                        iftoDetail(AccountActivity.class);
                         break;
                     case 1:
                         if (ToolFor9Ge.checkNetworkInfo(ActivityPersonalActivity.this)) {
 //                            iftoDetail(MyAssets.class);
+                            Toast.makeText(ActivityPersonalActivity.this, "暂未开发", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ActivityPersonalActivity.this, "没有网络!", Toast.LENGTH_SHORT).show();
                         }
@@ -111,6 +112,7 @@ public class ActivityPersonalActivity extends AppCompatActivity {
                     case 2:
                         if (ToolFor9Ge.checkNetworkInfo(ActivityPersonalActivity.this)) {
 //                            iftoDetail(MyCollection.class);
+                            Toast.makeText(ActivityPersonalActivity.this, "暂未开发", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ActivityPersonalActivity.this, "没有网络!", Toast.LENGTH_SHORT).show();
                         }
