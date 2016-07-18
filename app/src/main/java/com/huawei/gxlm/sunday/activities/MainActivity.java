@@ -199,7 +199,11 @@ public class MainActivity extends BaseActivity
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startAct(TweetDetailActivity.class);
+                System.out.println(i+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                Tweet.PostsBean postsBean = MainData.get(i);
+                Intent intent = new Intent(MainActivity.this, TweetDetailActivity.class);
+                intent.putExtra("Detail",postsBean);
+                startActivity(intent);
             }
         });
     }
@@ -260,7 +264,7 @@ public class MainActivity extends BaseActivity
         MainData = new ArrayList<>();
         tweetsListItemAdapter = new TweetsListItemAdapter(this, MainData);
         mainList.setAdapter(tweetsListItemAdapter);
-        getDataFromWeb();
+//        getDataFromWeb();
     }
 
     private void getDataFromWeb() {
