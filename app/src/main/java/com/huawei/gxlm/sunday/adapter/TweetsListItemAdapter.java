@@ -73,12 +73,15 @@ public class TweetsListItemAdapter extends BaseAdapter {
 //        holder.gridView
         holder.likeCount.setText(object.getZan()+"");
         holder.commentCount.setText(object.getComments().size()+"");
-        String s = context.getString(R.string.img_split);
         List<String> urls=new ArrayList<>();
         String[] imgs = object.getImgurls().split("---"+"\\*\\*\\*" +"---");
-        for (String imgurl:
-             imgs) {
-            urls.add(Api.HOST+"/"+imgurl);
+//        for (String imgurl:
+//             imgs) {
+//            urls.add(Api.HOST+"/"+imgurl);
+//        }
+        for (int i = 1; i < imgs.length; i++) {
+            urls.add(Api.HOST+"/"+imgs[i]);
+
         }
         GridPhotoAdapter adapter = new GridPhotoAdapter(context, urls);
         holder.gridView.setAdapter(adapter);

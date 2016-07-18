@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,10 +75,12 @@ public class MainActivity extends BaseActivity
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GET_DATA_SUCCESS:
+                    pbMain.setVisibility(View.GONE);
                     tweetsListItemAdapter.notifyDataSetChanged();
+                    mainList.setSelection(0);
                     break;
                 case GET_DATA_FAIL:
-                    Toast.makeText(MainActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                    toast("获取数据失败");
                     break;
                 default:
                     break;
@@ -129,6 +132,7 @@ public class MainActivity extends BaseActivity
     private TextView login;
     private SharedPreferences cookie;
     private String my_cookie;
+    private ProgressBar pbMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +152,7 @@ public class MainActivity extends BaseActivity
 //            }
 //        });
         boomMenuButton = (BoomMenuButton) findViewById(R.id.boom);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -171,7 +176,7 @@ public class MainActivity extends BaseActivity
         mllunLogined = (LinearLayout) headerView.findViewById(R.id.unlogin_view);
         register = (TextView) headerView.findViewById(R.id.bt_nav_register);
         login = (TextView) headerView.findViewById(R.id.bt_nav_login);
-
+        pbMain = (ProgressBar) findViewById(R.id.pb_main);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,6 +220,7 @@ public class MainActivity extends BaseActivity
             mllLogined.setVisibility(View.GONE);
 
         }
+        changeContent(0);
     }
 
     @Override
@@ -258,6 +264,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void getDataFromWeb() {
+        pbMain.setVisibility(View.VISIBLE);
         HttpUtils.doGetAsyn(Api.HOST + "?p=" + Loaded, new HttpUtils.CallBack() {
             @Override
             public void onRequestComplete(String result) {
@@ -278,7 +285,10 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(boomMenuButton.isOpen()){
+            boomMenuButton.dismiss();
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -426,6 +436,7 @@ public class MainActivity extends BaseActivity
      */
     private void changeContent(int i) {
         //网络请求
+        pbMain.setVisibility(View.VISIBLE);
         String type = allName[i];
         String url = Api.HOST;
         switch (type) {
@@ -443,24 +454,24 @@ public class MainActivity extends BaseActivity
                 }
                 break;
         }
-            HttpUtils.doGetAsyn( url, new HttpUtils.CallBack() {
-                @Override
-                public void onRequestComplete(String result) {
-                    if (result.contains("success")) {
-                        handler.sendEmptyMessage(GET_DATA_FAIL);
-                    } else {
-                        //处理页面更新
-                        Gson gson = new Gson();
-                        Tweet tweet = gson.fromJson(result, Tweet.class);
-    //                if (Loaded == 1) {
-                        MainData.clear();
-    //                }
-                        MainData.addAll(tweet.getPosts());
-                        handler.sendEmptyMessage(GET_DATA_SUCCESS);
-                    }
-
+        HttpUtils.doGetAsyn(url, new HttpUtils.CallBack() {
+            @Override
+            public void onRequestComplete(String result) {
+                if (result.contains("success")) {
+                    handler.sendEmptyMessage(GET_DATA_FAIL);
+                } else {
+                    //处理页面更新
+                    Gson gson = new Gson();
+                    Tweet tweet = gson.fromJson(result, Tweet.class);
+                    //                if (Loaded == 1) {
+                    MainData.clear();
+                    //                }
+                    MainData.addAll(tweet.getPosts());
+                    handler.sendEmptyMessage(GET_DATA_SUCCESS);
                 }
-            });
+
+            }
+        });
 
     }
 
@@ -515,7 +526,7 @@ public class MainActivity extends BaseActivity
     public void onClick(int buttonIndex) {
         switch (buttonIndex) {
             case 0:
-                if (my_cookie==null){
+                if (my_cookie == null) {
                     toast("未登录");
                     startAct(LoginActivity.class);
                     return;
