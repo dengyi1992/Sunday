@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.huawei.gxlm.sunday.R;
+import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.bean.Artical;
 import com.huawei.gxlm.sunday.bean.Tweet;
 import com.huawei.gxlm.sunday.widget.enter.AutoHeightGridView;
@@ -72,6 +73,16 @@ public class TweetsListItemAdapter extends BaseAdapter {
 //        holder.gridView
         holder.likeCount.setText(object.getZan()+"");
         holder.commentCount.setText(object.getComments().size()+"");
+        String s = context.getString(R.string.img_split);
+        List<String> urls=new ArrayList<>();
+        String[] imgs = object.getImgurls().split("---"+"\\*\\*\\*" +"---");
+        for (String imgurl:
+             imgs) {
+            urls.add(Api.HOST+"/"+imgurl);
+        }
+        GridPhotoAdapter adapter = new GridPhotoAdapter(context, urls);
+        holder.gridView.setAdapter(adapter);
+
     }
 
     protected class ViewHolder {

@@ -56,7 +56,7 @@ import java.util.Random;
 
 import me.nereo.multi_image_selector.bean.Image;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, BoomMenuButton.OnSubButtonClickListener, BoomMenuButton.AnimatorListener {
     private static final int NEW_VERISON_APP = 3;
 
@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity
     private TextView mState;
     private TextView register;
     private TextView login;
+    private SharedPreferences cookie;
+    private String my_cookie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,6 +220,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        cookie = getSharedPreferences("cookie", Context.MODE_PRIVATE);
+        my_cookie = cookie.getString("my_cookie", null);
         resumeView();
     }
 
@@ -511,6 +515,11 @@ public class MainActivity extends AppCompatActivity
     public void onClick(int buttonIndex) {
         switch (buttonIndex) {
             case 0:
+                if (my_cookie==null){
+                    toast("未登录");
+                    startAct(LoginActivity.class);
+                    return;
+                }
                 startAct(PublishActivity.class);
                 break;
             case 1:

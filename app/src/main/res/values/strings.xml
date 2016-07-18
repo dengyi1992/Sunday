@@ -93,4 +93,5 @@
     <string name="hint_publish">闲来无事,分享点什么吧!</string>
     <string name="action_share">分享</string>
     <string name="error_network">哎呀! 发送失败了!</string>
+    <string name="img_split">---***---</string>
 </resources>
