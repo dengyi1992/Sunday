@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.huawei.gxlm.sunday.R;
+import com.huawei.gxlm.sunday.utils.DensityUtils;
+import com.huawei.gxlm.sunday.utils.ToolFor9Ge;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,10 +61,11 @@ public class GridPhotoAdapter extends BaseAdapter {
         }
 
         if(!urls.get(position).isEmpty()){
-            Picasso.with(this.mContext)
+            Glide.with(this.mContext)
                     .load(urls.get(position))
-                    .resize(400, 400)
-                    .centerCrop()
+                    .override(DensityUtils.dp2px(this.mContext,100),DensityUtils.dp2px(this.mContext,100))
+//                    .resize(400, 400)
+                    .centerCrop().placeholder(R.mipmap.logo1)
                     .into(holder.imageView);
         }else {
             holder.imageView.setVisibility(View.GONE);

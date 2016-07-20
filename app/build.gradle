@@ -35,4 +35,5 @@ dependencies {
     compile project(':multi-image-selector')
     compile project(path: ':multi-image-selector')
     compile project(path: ':multi-image-selector')
+    compile 'com.makeramen:roundedimageview:2.2.1'
 }
