@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -104,7 +106,15 @@ public class TweetDetailActivity extends AppCompatActivity {
         }
         GridPhotoAdapter adapter = new GridPhotoAdapter(this, urls);
         mGridViewAutoHeightGridView.setAdapter(adapter);
-
+        mGridViewAutoHeightGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(TweetDetailActivity.this, ImageDetailActivity.class);
+                intent.putExtra("IMAGES",detail.getImgurls());
+                intent.putExtra("POSTTION",i);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -94,4 +94,6 @@
     <string name="action_share">分享</string>
     <string name="error_network">哎呀! 发送失败了!</string>
     <string name="img_split">---***---</string>
+    <string name="title_activity_image_detail">看图模式</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

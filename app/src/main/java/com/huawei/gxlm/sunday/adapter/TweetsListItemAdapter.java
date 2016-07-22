@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.huawei.gxlm.sunday.R;
+import com.huawei.gxlm.sunday.activities.ImageDetailActivity;
 import com.huawei.gxlm.sunday.api.Api;
 import com.huawei.gxlm.sunday.bean.Artical;
 import com.huawei.gxlm.sunday.bean.Tweet;
@@ -64,7 +67,7 @@ public class TweetsListItemAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void initializeViews(Tweet.PostsBean object, ViewHolder holder) {
+    private void initializeViews(final Tweet.PostsBean object, ViewHolder holder) {
         //TODO implement
         Glide.with(context).load(object.getHead()).placeholder(R.mipmap.logo1).into(holder.avatar);
         holder.username.setText(object.getName());
@@ -85,6 +88,15 @@ public class TweetsListItemAdapter extends BaseAdapter {
         }
         GridPhotoAdapter adapter = new GridPhotoAdapter(context, urls);
         holder.gridView.setAdapter(adapter);
+        holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(context, ImageDetailActivity.class);
+                intent.putExtra("IMAGES",object.getImgurls());
+                intent.putExtra("POSTTION",i);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

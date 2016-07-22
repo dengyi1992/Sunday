@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.huawei.gxlm.sunday"
-    >
+    package="com.huawei.gxlm.sunday">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -51,13 +49,18 @@
             android:launchMode="singleInstance" />
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity android:name=".activities.PublishActivity" />
         <activity android:name=".activities.TweetDetailActivity" />
-        <activity android:name=".activities.ChangePassActivity"/>
-        <activity android:name=".activities.AccountActivity"/>
+        <activity android:name=".activities.ChangePassActivity" />
+        <activity android:name=".activities.AccountActivity" />
 
-        <service android:name=".serivice.UpdateService"></service>
+        <service android:name=".serivice.UpdateService" />
+
+        <activity
+            android:name=".activities.ImageDetailActivity"
+            android:label="@string/title_activity_image_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
